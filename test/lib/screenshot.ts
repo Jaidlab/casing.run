@@ -5,8 +5,8 @@ import optis from 'optis'
 
 const schema = optis.typed<{
   optional: {
-    element: string
     colorScheme: 'dark' | 'light'
+    element: string
   }
 }>
 
@@ -16,7 +16,7 @@ export default async function screenshot(page: Page, options: OptisParameter<typ
     await page.emulateMediaFeatures([
       {
         name: 'prefers-color-scheme',
-        value: options.colorScheme
+        value: options.colorScheme,
       },
     ])
   }
@@ -24,7 +24,7 @@ export default async function screenshot(page: Page, options: OptisParameter<typ
     const element = await page.waitForSelector(options.element)
     return element!.screenshot({
       captureBeyondViewport: true,
-      omitBackground: true
+      omitBackground: true,
     })
   }
   return page.screenshot()

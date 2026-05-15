@@ -9,8 +9,8 @@ import {createServer} from 'vite'
 export default class ViteSession implements AsyncDisposable {
   static schema = optis({
     defaults: {
-      root: process.cwd()
-    }
+      root: process.cwd(),
+    },
   })
 
   static formatAddress(address: AddressInfo) {
@@ -43,8 +43,8 @@ export default class ViteSession implements AsyncDisposable {
     this.server = await createServer({
       root: this.options.root,
       server: {
-        host: '127.0.0.1'
-      }
+        host: '127.0.0.1',
+      },
     })
     await this.server.listen()
   }

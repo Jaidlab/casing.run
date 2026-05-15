@@ -1,9 +1,11 @@
-import {describe, test, expect, beforeAll, afterAll, beforeEach, afterEach} from 'bun:test'
 import type {Browser, Page} from 'puppeteer-core'
+
+import {afterAll, afterEach, beforeAll, beforeEach, describe, expect, test} from 'bun:test'
+
+import countPixels from 'count-in-png'
 import puppeteer from 'puppeteer-core'
 
 import screenshot from './lib/screenshot.ts'
-import countPixels from 'count-in-png'
 import ViteSession from './lib/ViteSession.ts'
 
 describe.if(Boolean(Bun.env.target)).each(['chrome', 'firefox'])('%s', host => {
@@ -12,13 +14,16 @@ describe.if(Boolean(Bun.env.target)).each(['chrome', 'firefox'])('%s', host => {
   let browser: Browser
   beforeAll(async () => {
     vite = new ViteSession({
-      root: Bun.env.target
+      root: Bun.env.target,
     })
     await vite.init()
     browser = await puppeteer.launch({
       browser: host,
       executablePath: Bun.which(host)!,
-      defaultViewport: {width: 1920, height: 960},
+      defaultViewport: {
+        width: 1920,
+        height: 960,
+      },
       args: host === 'chrome' ? [
         '--no-sandbox',
         '--disable-setuid-sandbox',
@@ -27,8 +32,8 @@ describe.if(Boolean(Bun.env.target)).each(['chrome', 'firefox'])('%s', host => {
         '--flag-switches-begin',
         '--enable-experimental-web-platform-features',
         '--enable-features=JXLImageFormat,OverlayScrollbar',
-        '--flag-switches-end'
-      ] : undefined
+        '--flag-switches-end',
+      ] : undefined,
     })
   })
   afterAll(async () => {
@@ -43,7 +48,6 @@ describe.if(Boolean(Bun.env.target)).each(['chrome', 'firefox'])('%s', host => {
   afterEach(async () => {
     await page?.close()
   })
-
   test('static HTML after React render', async () => {
     const html = await page.content()
     await Bun.write('out/test/render.html', html)
@@ -60,28 +64,25 @@ describe.if(Boolean(Bun.env.target)).each(['chrome', 'firefox'])('%s', host => {
     expect(html).toContain('Title Case')
     expect(html).toContain('Sentence case')
   })
-
   test('page title is set', async () => {
     const title = await page.title()
     expect(title).toBeTruthy()
     expect(title.length).toBeGreaterThan(0)
   })
-
   test('input field accepts text and updates results', async () => {
     const inputSelector = 'input[type="text"]'
     await page.waitForSelector(inputSelector)
-
     // Focus and select all existing text, then type
     await page.focus(inputSelector)
-    await page.evaluate(sel => { (document.querySelector(sel) as HTMLInputElement).select() }, inputSelector)
+    await page.evaluate(sel => {
+      (document.querySelector(sel) as HTMLInputElement).select()
+    }, inputSelector)
     await page.type(inputSelector, 'hello world')
-
     // Wait a moment for React to update
     await page.waitForFunction(() => {
       const outputs = document.querySelectorAll('output')
       return outputs.length > 0 && outputs[0].textContent !== ''
     })
-
     // Verify the casings are generated
     const pageText = await page.evaluate(() => document.body.innerText)
     expect(pageText).toContain('helloWorld')
@@ -96,49 +97,42 @@ describe.if(Boolean(Bun.env.target)).each(['chrome', 'firefox'])('%s', host => {
     expect(pageText).toContain('Hello World')
     expect(pageText).toContain('Hello world')
   })
-
   test('casings update live as user types', async () => {
     const inputSelector = 'input[type="text"]'
     await page.waitForSelector(inputSelector)
-
     // Focus and select all existing text, then type
     await page.focus(inputSelector)
-    await page.evaluate(sel => { (document.querySelector(sel) as HTMLInputElement).select() }, inputSelector)
+    await page.evaluate(sel => {
+      (document.querySelector(sel) as HTMLInputElement).select()
+    }, inputSelector)
     await page.type(inputSelector, 'foo')
-
     await page.waitForFunction(() => {
       const outputs = document.querySelectorAll('output')
       return outputs.length > 0 && outputs[0].textContent === 'foo'
     })
-
     let pageText = await page.evaluate(() => document.body.innerText)
     expect(pageText).toContain('foo') // camelCase single word
-
     // Type more
     await page.type(inputSelector, ' bar')
-
     await page.waitForFunction(() => {
       const outputs = document.querySelectorAll('output')
       return outputs.length > 0 && outputs[0].textContent === 'fooBar'
     })
-
     pageText = await page.evaluate(() => document.body.innerText)
     expect(pageText).toContain('fooBar')
     expect(pageText).toContain('FooBar')
     expect(pageText).toContain('foo_bar')
   })
-
   test('11 casing items rendered', async () => {
     const count = await page.evaluate(() => document.querySelectorAll('li').length)
     expect(count).toBe(11)
   })
-
   if (host === 'chrome') {
     describe.each(['page', 'content'])('%s screenshot', scope => {
       test.each(['dark', 'light'])('%s', async theme => {
         const image = await screenshot(page, {
           colorScheme: theme,
-          element: scope === 'content' ? 'body>*>main' : undefined
+          element: scope === 'content' ? 'body>*>main' : undefined,
         })
         await Bun.write(`out/test/screenshots/${host}_${theme}_${scope}.png`, image)
         const pixels = countPixels(image)

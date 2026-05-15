@@ -8,7 +8,7 @@ const sassModulesPlugin: BunPlugin = {
       const classNames = [...new Set(Array.from(source.matchAll(/^\s*\.([A-Z_a-z][\w-]*)/gm), match => match[1]).filter(Boolean))]
       return {
         contents: `export default ${JSON.stringify(Object.fromEntries(classNames.map(className => [className, className])))}`,
-        loader: 'js'
+        loader: 'js',
       }
     })
   },
