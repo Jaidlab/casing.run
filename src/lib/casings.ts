@@ -1,5 +1,7 @@
 export interface CasingDefinition {
+  readonly category: 'dash' | 'space' | 'touching' | 'underscore'
   readonly convert: (text: string) => string
+  readonly id: string
   readonly name: string
 }
 
@@ -113,47 +115,69 @@ function capitalize(word: string): string {
 
 export const casings = {
   camelCase: {
+    id: 'camel',
     name: 'camelCase',
     convert: camelCase,
+    category: 'touching',
   },
   pascalCase: {
+    id: 'pascal',
     name: 'PascalCase',
     convert: pascalCase,
+    category: 'touching',
   },
   snakeCase: {
+    id: 'snake',
     name: 'snake_case',
     convert: snakeCase,
+    category: 'underscore',
   },
   constantCase: {
+    id: 'constant',
     name: 'CONSTANT_CASE',
     convert: constantCase,
+    category: 'underscore',
   },
   kebabCase: {
+    id: 'kebab',
     name: 'kebab-case',
     convert: kebabCase,
+    category: 'dash',
   },
   trainCase: {
+    id: 'train',
     name: 'Train-Case',
     convert: trainCase,
+    category: 'dash',
   },
   cobolCase: {
+    id: 'cobol',
     name: 'COBOL-CASE',
     convert: cobolCase,
+    category: 'dash',
   },
   lowerCase: {
+    id: 'lower',
     name: 'lower case',
     convert: lowerCase,
-  },
-  upperCase: {
-    name: 'UPPER CASE',
-    convert: upperCase,
-  },
-  titleCase: {
-    name: 'Title Case',
-    convert: titleCase,
+    category: 'space',
   },
   sentenceCase: {
+    id: 'sentence',
     name: 'Sentence case',
     convert: sentenceCase,
+    category: 'space',
+  },
+  titleCase: {
+    id: 'title',
+    name: 'Title Case',
+    convert: titleCase,
+    category: 'space',
+  },
+  upperCase: {
+    id: 'upper',
+    name: 'UPPER CASE',
+    convert: upperCase,
+    category: 'space',
   },
 } as const satisfies Record<string, CasingDefinition>
