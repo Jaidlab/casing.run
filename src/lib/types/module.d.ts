@@ -1,11 +1,20 @@
-/// <reference types="vite/client" />
+/// <reference types="vite/client"/>
 
 declare module 'postcss-normalize' {
   import type {PluginCreator} from 'postcss'
 
-  const plugin: PluginCreator<{allowDuplicates?: boolean
-    forceImport?: boolean | string}>
+  type PluginSchema = {
+    allowDuplicates?: boolean
+    forceImport?: boolean | string
+  }
+  const plugin: PluginCreator<PluginSchema>
   export default plugin
+}
+declare module '#root/package.json' {
+  import type {PackageJson} from 'type-fest'
+
+  const content: PackageJson
+  export default content
 }
 declare module '*.module.sass' {
   const classes: Record<string, string>

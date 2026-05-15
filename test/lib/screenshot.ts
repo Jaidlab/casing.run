@@ -8,7 +8,7 @@ const schema = optis.typed<{
     colorScheme: 'dark' | 'light'
     element: string
   }
-}>
+}>()
 
 export default async function screenshot(page: Page, options: OptisParameter<typeof schema>) {
   options = schema.process(options)

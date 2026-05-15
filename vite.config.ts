@@ -1,3 +1,5 @@
+/* eslint new-cap: ["warn", {"capIsNewExceptions": ["VitePWA"]}] */
+
 import type {PluginOption, UserConfig} from 'vite'
 
 import babelPlugin from '@rolldown/plugin-babel'
@@ -9,8 +11,7 @@ import {defineConfig} from 'vite'
 import {VitePWA} from 'vite-plugin-pwa'
 
 import titlePlugin from '#root/lib/titlePlugin.ts'
-
-import packageJson from './package.json' with {type: 'json'}
+import packageJson from '#root/package.json'
 
 export default defineConfig(context => {
   const basePlugins: Array<PluginOption> = [
@@ -30,12 +31,13 @@ export default defineConfig(context => {
       build: baseBuildConfig,
     }
   }
+  const title = (packageJson.displayName || packageJson.name) as string
   const pwaPlugin = VitePWA({
     registerType: 'autoUpdate',
     manifest: {
-      name: packageJson.displayName || packageJson.name,
-      short_name: packageJson.displayName || packageJson.name,
-      description: (packageJson as Record<string, unknown>).description as string | undefined,
+      name: title,
+      short_name: title,
+      description: packageJson.description,
       theme_color: '#000',
       background_color: '#000',
       display: 'standalone',
@@ -58,9 +60,6 @@ export default defineConfig(context => {
       globPatterns: ['*.{js,css,html,svg}'],
     },
   })
-  // cssnano-preset-advanced returns plugins as [pluginFn, options] tuples,
-  // but this version of PostCSS doesn't support that format. Call each fn with its opts.
-  const cssnanoPlugins = postcssCssnano().plugins.map(([fn, opts]: [Function, unknown]) => fn(opts))
   return {
     plugins: [
       ...basePlugins,
@@ -76,7 +75,7 @@ export default defineConfig(context => {
         plugins: [
           postcssNormalize(),
           postcssAutoprefixer,
-          ...cssnanoPlugins,
+          postcssCssnano,
         ],
       },
     },
