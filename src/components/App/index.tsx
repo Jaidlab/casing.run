@@ -7,7 +7,7 @@ import css from './style.module.sass'
 
 const placeholderText = 'Enter some text'
 
-export default function App() {
+export default () => {
   const [text, setText] = useState('')
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setText(event.target.value)
