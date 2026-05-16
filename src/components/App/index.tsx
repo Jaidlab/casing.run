@@ -24,7 +24,7 @@ export default function App() {
       <input type='text' className={css.result} value={value} placeholder={casing.convert(placeholderText)} readOnly />
     </div>
   })
-  return <main className={css.container}>
+  return <>
     <div className={css.inputWrapper}>
       <input type="text" className={css.input} placeholder={placeholderText} value={text} onChange={onChange} autoFocus />
     </div>
@@ -35,5 +35,5 @@ export default function App() {
       ↓
     </div>
     {items}
-  </main>
+  </>
 }

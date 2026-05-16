@@ -1,5 +1,6 @@
 /* eslint new-cap: ["warn", {"capIsNewExceptions": ["VitePWA"]}] */
 
+import type {PackageJson} from 'type-fest'
 import type {PluginOption, UserConfig} from 'vite'
 
 import babelPlugin from '@rolldown/plugin-babel'
@@ -7,11 +8,13 @@ import reactPlugin, {reactCompilerPreset} from '@vitejs/plugin-react'
 import postcssAutoprefixer from 'autoprefixer'
 import postcssNormalize from 'postcss-normalize'
 import {defineConfig} from 'vite'
+import mediaMixinsPlugin from 'vite-plugin-media-mixins'
 import {VitePWA} from 'vite-plugin-pwa'
+import titlePlugin from 'vite-plugin-title'
 
 import cssnanoPlugin from '#root/lib/cssnanoPlugin.ts'
-import titlePlugin from '#root/lib/titlePlugin.ts'
-import packageJson from '#root/package.json'
+
+const packageJson = await Bun.file('package.json').json() as PackageJson
 
 export default defineConfig(context => {
   const basePlugins: Array<PluginOption> = [
@@ -20,6 +23,7 @@ export default defineConfig(context => {
     babelPlugin({
       presets: [reactCompilerPreset()],
     }),
+    mediaMixinsPlugin(),
   ]
   const baseBuildConfig: UserConfig['build'] = {
     target: 'chrome147',

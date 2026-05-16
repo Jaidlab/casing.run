@@ -1,12 +1,4 @@
-@mixin mobile
-  @media only screen and (max-width: 599px)
-    @content
-
-@mixin light
-  @media (prefers-color-scheme: light)
-    @content
-
-.container
+:has(>.inputWrapper)
   height: 100vh
   width: 100%
   max-width: 60ch
@@ -24,6 +16,9 @@
   font-size: 1rem
   opacity: 0.25
   padding: 1rem
+  @include squat
+    padding-top: 0
+    padding-bottom: 0
 
 .inputWrapper
   display: flex
@@ -47,7 +42,7 @@ input
   outline: none
   &:focus
     border-color: #34b
-  @include mobile
+  @include narrow
     width: 100%
   @include light
     border-color: #34b
@@ -115,9 +110,12 @@ input
   background: rgba(0, 0, 0, 20%)
   border: none
   font-size: 120%
-  padding-left: 1rem
+  padding-left: 2rem
   padding-top: 0.5rem
   padding-bottom: 0.5rem
   align-self: normal
+  @include squat
+    padding-top: 0
+    padding-bottom: 0
   @include light
     background: rgba(255, 255, 255, 20%)
