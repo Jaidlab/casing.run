@@ -2,16 +2,23 @@
 @import-normalize
 @import-sanitize
 
+@mixin mobile
+  @media only screen and (max-width: 599px)
+    @content
+
+@mixin light
+  @media (prefers-color-scheme: light)
+    @content
+
 :root
-  background: black
   color-scheme: dark
+  background: black
   color: white
   font-family: Geologica, Rubik, Calibri, sans-serif
-  ::selection
-    background: #ffb327
-
-pre>code
-  white-space: pre-wrap
+  @include light
+    color-scheme: light
+    background: white
+    color: black
 
 a:hover
   text-decoration: underline
@@ -19,7 +26,5 @@ a:hover
 code
   font-family: JetBrainsMono NF, JetBrains Mono, Iosevka, Symbols Nerd Font Mono, Symbols Nerd Font Mono Regular, monospace
 
-@media (prefers-color-scheme: light)
-  :root
-    background: white
-    color: black
+pre>code
+  white-space: pre-wrap

@@ -1,20 +1,20 @@
+import type {PackageJson} from 'type-fest'
 import type {Plugin} from 'vite'
 
-import packageJson from '#root/package.json' with {type: 'json'}
-
-export default function titlePlugin(): Plugin {
-  return {
+export default async function titlePlugin(title?: string) {
+  const packageJson = await Bun.file('package.json').json() as PackageJson
+  const resolvedTitle = (title || packageJson.displayName || packageJson.name) as string | undefined
+  const plugin: Plugin = {
     name: 'vite-plugin-title',
-    transformIndexHtml: {
-      order: 'post',
-      handler() {
-        const title = String(packageJson.displayName || packageJson.name || 'App')
-        return [{
-          tag: 'title',
-          children: title,
-          injectTo: 'head-prepend'
-        }]
-      }
-    }
   }
+  if (resolvedTitle) {
+    plugin.transformIndexHtml = () => [
+      {
+        tag: 'title',
+        children: resolvedTitle,
+        injectTo: 'head-prepend',
+      },
+    ]
+  }
+  return plugin
 }
