@@ -75,6 +75,7 @@ const customizedRules = {
   'relative-selector-nesting-notation': 'implicit',
   'media-feature-range-notation': 'context',
   'color-function-alias-notation': 'without-alpha',
+  'alpha-value-notation': 'percentage',
 }
 const disabledRules = ['rule-empty-line-before']
 const rules: Record<string, unknown> = {}
