@@ -9,6 +9,11 @@
 
 .header
   text-align: center
+  display: flex
+  min-width: 8.5ch
+  justify-content: end
+  place-self: stretch
+  align-items: center
 
 .arrow
   display: flex
@@ -16,9 +21,6 @@
   font-size: 1rem
   opacity: 0.25
   padding: 1rem
-  @include squat
-    padding-top: 0
-    padding-bottom: 0
 
 .inputWrapper
   display: flex
@@ -35,16 +37,12 @@ input
 .input
   width: 80%
   padding: 0.75rem 1rem
-  border: 1px solid rgba(255, 255, 255, 0.15)
+  border: 1px solid rgb(255 255 255 / 0.15)
   border-radius: 0.5rem
   background: transparent
   font-size: 1.1rem
   outline: none
   &:focus
-    border-color: #34b
-  @include narrow
-    width: 100%
-  @include light
     border-color: #34b
 
 .item
@@ -60,34 +58,27 @@ input
 
 .touching
   background: oklch(40% 0.4 340)
-  @include light
-    background: oklch(90% 0.3 330)
 
 .underscore
   background: oklch(40% 0.4 220)
-  @include light
-    background: oklch(90% 0.3 260)
 
 .dash
   background: oklch(40% 0.4 200)
-  @include light
-    background: oklch(90% 0.1 200)
 
 .space
   background: oklch(40% 0.4 180)
-  @include light
-    background: oklch(90% 0.2 140)
-
-.header
-  display: flex
-  min-width: 8.5ch
-  justify-content: end
-  place-self: stretch
-  align-items: center
 
 .name
   opacity: 0.8
   text-transform: capitalize
+
+.button
+  display: none
+  font-family: Symbols Nerd Font Mono, sans-serif
+  cursor: pointer
+  user-select: none
+  width: stretch
+  text-align: end
 
 .item:hover
   .name
@@ -95,27 +86,14 @@ input
   .button
     display: initial
 
-.button
-  display: none
-  font-family: Symbols Nerd Font Mono
-  cursor: pointer
-  user-select: none
-  width: stretch;
-  text-align: end;
-
 .result
   flex: 1
   font-family: JetBrainsMono NF, JetBrains Mono, Iosevka, Symbols Nerd Font Mono, monospace
   word-break: break-all
-  background: rgba(0, 0, 0, 20%)
+  background: rgb(0 0 0 / 20%)
   border: none
   font-size: 120%
   padding-left: 2rem
   padding-top: 0.5rem
   padding-bottom: 0.5rem
   align-self: normal
-  @include squat
-    padding-top: 0
-    padding-bottom: 0
-  @include light
-    background: rgba(255, 255, 255, 20%)
