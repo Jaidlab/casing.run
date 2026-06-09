@@ -27,10 +27,7 @@ const getCommonConfig = () => {
       babelPlugin({
         presets: [reactCompilerPreset()],
       }),
-      mediaMixinsPlugin({
-        easing: 'sine',
-        sensitivityRadius: 30,
-      }),
+      mediaMixinsPlugin(),
     ],
     css: {
       postcss: {

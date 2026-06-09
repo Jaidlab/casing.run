@@ -11,7 +11,9 @@
   justify-content: center
   font-size: 1rem
   opacity: 25%
-  padding: 1rem
+  padding: toSquat(1rem)
+  @include squat
+    display: none
 
 .inputWrapper
   display: flex
@@ -26,10 +28,10 @@ input
       box-shadow: none
 
 .input
-  width: 80%
+  width: 100%
   padding: 0.75rem 1rem
   border: 1px solid rgb(255 255 255 / 15%)
-  border-radius: 0.5rem
+  border-radius: toNarrow(50)
   background: transparent
   font-size: 1.1rem
   outline: none
@@ -41,7 +43,7 @@ input
   align-items: baseline
   gap: 0.5rem
   overflow: hidden
-  margin-top: 0.4rem
+  margin-top: toSquat(6px)
   transition: opacity 100ms
 
 .equal:not(:hover)
