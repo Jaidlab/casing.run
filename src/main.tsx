@@ -1,21 +1,12 @@
 import '#src/style.sass'
 
-import {StrictMode} from 'react'
-import {createRoot} from 'react-dom/client'
+import mountRoot from 'mount-root'
 
-import App from '#src/components/App/index.tsx'
+import App from '#component/App'
 
-if (import.meta.env.DEV) {
-  let rootNode = document.body.querySelector(':scope>div')
-  if (!rootNode) {
-    rootNode = document.createElement('div')
-    document.body.append(rootNode)
-  }
-  const root = createRoot(rootNode)
-  root.render(<StrictMode><App/></StrictMode>)
-} else {
-  const rootNode = document.createElement('div')
-  document.body.append(rootNode)
-  const root = createRoot(rootNode)
-  root.render(<App/>)
-}
+import css from './style.module.sass'
+
+mountRoot(App, {
+  id: css.container,
+  strict: import.meta.env.DEV,
+})

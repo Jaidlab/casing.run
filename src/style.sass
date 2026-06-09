@@ -1,11 +1,19 @@
 @import-normalize
 @import-sanitize
 
+@font-face
+  font-family: main
+  src: local("Geologica"), local("Geologica NF")
+
+@font-face
+  font-family: code
+  src: local("JetBrains Mono"), local("JetBrains Mono NF")
+
 :root
   color-scheme: dark
   background: black
   color: white
-  font-family: Geologica, Rubik, Calibri, sans-serif
+  user-select: none
   @include light
     color-scheme: light
     background: white
@@ -15,7 +23,7 @@ a:hover
   text-decoration: underline
 
 code
-  font-family: JetBrainsMono NF, JetBrains Mono, Iosevka, Symbols Nerd Font Mono, Symbols Nerd Font Mono Regular, monospace
+  font-family: code
 
 pre>code
   white-space: pre-wrap
