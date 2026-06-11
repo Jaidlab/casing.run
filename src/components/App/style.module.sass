@@ -30,13 +30,21 @@ input
 .input
   width: 100%
   padding: 0.75rem 1rem
-  border: 1px solid rgb(255 255 255 / 15%)
-  border-radius: toNarrow(50)
+  border: 1px solid #333
+  border-radius: toNarrow(50px)
   background: transparent
   font-size: 1.1rem
   outline: none
+  &::placeholder
+    color: inherit
+    opacity: 50%
+    transition: opacity 100ms
   &:focus
-    border-color: #34b
+    border-color: #777
+    &::placeholder
+      opacity: 10%
+  @include narrow
+    border-inline: none
 
 .item
   display: flex
